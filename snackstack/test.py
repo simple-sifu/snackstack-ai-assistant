@@ -1,20 +1,20 @@
 import sys
 
 # Stage 1: Foundation
-# from src.config import llm
+# from snackstack.config import llm
 # print(llm.invoke("Hello, how are you?").content)
 # sys.exit()
 
 
 # Stage 2 - RAG - Menu Search Tool
-from src.tools import search_menu_catalog
+from snackstack.tools import search_menu_catalog
 print(search_menu_catalog.invoke({"query": "pizza"}))
 sys.exit()
 
 
 # Stage 3 - Product Agent Subgraph
 # from langchain_core.messages import HumanMessage, SystemMessage
-# from src.nodes import product_subgraph, PRODUCT_PROMPT
+# from snackstack.nodes import product_subgraph, PRODUCT_PROMPT
 # result = product_subgraph.invoke({'messages': [
 #     SystemMessage(content=PRODUCT_PROMPT),
 #     HumanMessage(content='Show me headphones under 15000')]})
@@ -24,7 +24,7 @@ sys.exit()
 
 # Stage 4 - Support Agent + Tools
 # from langchain_core.messages import HumanMessage, SystemMessage
-# from src.nodes import support_subgraph, SUPPORT_PROMPT
+# from snackstack.nodes import support_subgraph, SUPPORT_PROMPT
 # result = support_subgraph.invoke({'messages': [
 #     SystemMessage(content=SUPPORT_PROMPT),
 #     HumanMessage(content='Status of order ORD102?')]})
@@ -33,8 +33,8 @@ sys.exit()
 
 
 # Stage 5 - Orchestrator + Multi-Agent Routing
-# from src.config import llm
-# from src.state import ClassificationResult
+# from snackstack.config import llm
+# from snackstack.state import ClassificationResult
 # c = llm.with_structured_output(ClassificationResult)
 # r = c.invoke('Classify: My order ORD102 is late show me alternatives')
 # print(r)
@@ -44,7 +44,7 @@ sys.exit()
 
 # Stage 6 - Synthesizer + full Graph
 # from langchain_core.messages import HumanMessage
-# from src.graph import axiomcart_graph
+# from snackstack.graph import axiomcart_graph
 # result = axiomcart_graph.invoke(
 #     {'messages': [HumanMessage(content='ORD102 is late, show me headphones')],
 #     'user_query': 'ORD102 is late, show me headphones'},
@@ -56,7 +56,7 @@ sys.exit()
 # from langchain_core.messages import HumanMessage
 # from langchain_core.runnables import RunnableConfig
 # from langgraph.types import Command
-# from src.graph import axiomcart_graph
+# from snackstack.graph import axiomcart_graph
 # cfg: RunnableConfig = {'configurable': {'thread_id': 'test-hitl'}}
 # r = axiomcart_graph.invoke(
 #     {'messages': [HumanMessage(content='where is my order?')],
@@ -70,5 +70,5 @@ sys.exit()
 
 
 # Stage 8
-# python -m src.main # text REPL
-# python -m src.main --voice # voice mode
+# python -m snackstack.main # text REPL
+# python -m snackstack.main --voice # voice mode

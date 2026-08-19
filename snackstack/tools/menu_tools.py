@@ -10,8 +10,8 @@ from __future__ import annotations
 
 from langchain_core.tools import tool
 
-from src.config import get_logger
-from src.tools.rag import menu_search_vectorstore as menu_vectorstore
+from snackstack.config import get_logger
+from snackstack.tools.rag import menu_search_vectorstore as menu_vectorstore
 
 logger = get_logger("menu_tools")
 
