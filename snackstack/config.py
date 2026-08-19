@@ -1,34 +1,21 @@
 """
-Configuration: Logger, API clients, and settings.
+Configuration: API clients and settings.
 
 This module is imported by everything else, so it must have zero
-dependencies on other project modules.
+dependencies on other project modules besides logger.
 """
 
-import logging
+
 import os
 import sys
 
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from openai import OpenAI
+from snackstack.logger import get_logger
 
 # ── Load .env ────────────────────────────────────────────────
 load_dotenv()
-
-# ── Logger ───────────────────────────────────────────────────
-def get_logger(name: str) -> logging.Logger:
-    """Create a module-level logger with a readable format."""
-    logger = logging.getLogger(name)
-    if not logger.handlers:
-        handler = logging.StreamHandler(sys.stdout)
-        handler.setFormatter(
-            logging.Formatter("%(asctime)s | %(name)-18s | %(levelname)-7s | %(message)s",
-                              datefmt="%H:%M:%S")
-        )
-        logger.addHandler(handler)
-    logger.setLevel(logging.INFO)
-    return logger
 
 logger = get_logger("config")
 

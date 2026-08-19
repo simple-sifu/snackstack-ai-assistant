@@ -8,7 +8,8 @@ search_menu_catalog tool.
 from langchain_chroma import Chroma
 from langchain_core.documents import Document
 
-from snackstack.config import embeddings, get_logger
+from snackstack.config import embeddings
+from snackstack.logger import get_logger
 from snackstack.data.menu import MENU_CATALOG
 
 logger = get_logger("rag")

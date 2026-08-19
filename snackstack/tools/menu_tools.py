@@ -1,8 +1,8 @@
 """
 Agent Tools — the concrete actions agents can take.
 
-Product Discovery (1 tool):
-  • search_product_catalog  – RAG semantic search
+Menu Discovery (1 tool):
+  • search_menu_catalog  – RAG semantic search
 
 """
 
@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from langchain_core.tools import tool
 
-from snackstack.config import get_logger
+from snackstack.logger import get_logger
 from snackstack.tools.rag import menu_search_vectorstore as menu_vectorstore
 
 logger = get_logger("menu_tools")

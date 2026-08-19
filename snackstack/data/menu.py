@@ -6,7 +6,7 @@ they are plain Python structures so you can see everything at a glance.
 """
 
 from __future__ import annotations
-from snackstack.config import get_logger
+from snackstack.logger import get_logger
 
 logger = get_logger("menu")
 
