@@ -11,7 +11,7 @@ from __future__ import annotations
 from langchain_core.tools import tool
 
 from snackstack.logger import get_logger
-from snackstack.tools.rag import menu_search_vectorstore as menu_vectorstore
+from snackstack.tools.rag import menu_search_vectorstore
 
 logger = get_logger("menu_tools")
 
@@ -29,7 +29,7 @@ def search_menu_catalog(query: str) -> str:
     """
     logger.info("search_menu_catalog  query=%r", query)
     try:
-        docs = menu_vectorstore.similarity_search(query, k=3)
+        docs = menu_search_vectorstore.similarity_search(query, k=3)
         if not docs:
             return "No menu items found matching your query."
         results = "Found the following products:\n\n"
