@@ -6,9 +6,9 @@ import sys
 # sys.exit()
 
 
-# Stage 2 - RAG - Product Search Tool
+# Stage 2 - RAG - Menu Search Tool
 from src.tools import search_menu_catalog
-print(search_menu_catalog.invoke({"query": "wireless head phones"}))
+print(search_menu_catalog.invoke({"query": " indian sweets"}))
 sys.exit()
 
 

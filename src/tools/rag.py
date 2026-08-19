@@ -9,7 +9,7 @@ from langchain_chroma import Chroma
 from langchain_core.documents import Document
 
 from src.config import embeddings, get_logger
-from src.data import MENU_CATALOG
+from src.data.menu import MENU_CATALOG
 
 logger = get_logger("rag")
 
@@ -58,4 +58,4 @@ def build_vectorstore() -> Chroma:
 
 
 # Module-level singleton so every importer shares the same store
-menu_vectorstore = build_vectorstore()
+menu_search_vectorstore = build_vectorstore()

@@ -1,5 +1,5 @@
 """
-Static data: Menu catalog, order database, and support policies.
+Static data: Menu catalog
 
 In production these would come from a real database. For the demo
 they are plain Python structures so you can see everything at a glance.
@@ -8,9 +8,9 @@ they are plain Python structures so you can see everything at a glance.
 from __future__ import annotations
 from src.config import get_logger
 
-logger = get_logger("data")
+logger = get_logger("menu")
 
-logger.info("MENU_CATALOG & ORDER_DATABASE loaded")
+logger.info("MENU_CATALOG loaded")
 
 # ── Menu Catalog (used by RAG) ──────────────────────────────
 MENU_CATALOG: list[dict] = [
@@ -103,61 +103,3 @@ MENU_CATALOG: list[dict] = [
         "availability": True,
     },
 ]
-
-
-# ── Order Database ───────────────────────────────────────────
-ORDER_DATABASE: dict[str, dict] = {
-    "ORD-201": {
-        "item": "Butter Chicken",
-        "customer_name": "Priya Nair",
-        "status": "Out for Delivery",
-        "tracking": "SS201TRK",
-        "customer_email": "priya@example.com",
-    },
-    "ORD-202": {
-        "item": "Margherita Pizza",
-        "customer_name": "Arjun Mehta",
-        "status": "Placed",
-        "tracking": "SS202TRK",
-        "customer_email": "arjun@example.com",
-    },
-    "ORD-203": {
-        "item": "Cheeseburger",
-        "customer_name": "Sneha Roy",
-        "status": "Preparing",
-        "tracking": "SS203TRK",
-        "customer_email": "sneha@example.com",
-    },
-    "ORD-204": {
-        "item": "Buddha Bowl",
-        "customer_name": "Rahul Das",
-        "status": "Delivered",
-        "tracking": "SS204TRK",
-        "customer_email": "rahul@example.com",
-    },
-    "ORD-205": {
-        "item": "Paneer Tikka",
-        "customer_name": "Kavya Sharma",
-        "status": "Placed",
-        "tracking": "SS205TRK",
-        "customer_email": "kavya@example.com",
-    },
-}
-
-# Mutable queue — filled at runtime by escalate_to_human tool
-ESCALATION_QUEUE: list[dict] = []
-
-
-# ── Support Policies (injected into Support Agent prompt) ──────
-SUPPORT_POLICIES = """
-SHIPPING OPTIONS:
-- Rocket (Same-day): ₹199, available before 1 PM in metro cities
-- Glide (3-4 days): ₹99, express delivery
-- Cruise (7-8 days): Free on orders over ₹500
-
-ESCALATION CRITERIA:
-- Customer explicitly requests a human agent
-- Complaint involves safety or legal issues
-- Customer is highly frustrated or angry
-- Issue cannot be resolved with available tools
-""".strip()
