@@ -8,7 +8,7 @@ import sys
 
 # Stage 2 - RAG - Menu Search Tool
 from src.tools import search_menu_catalog
-print(search_menu_catalog.invoke({"query": " indian sweets"}))
+print(search_menu_catalog.invoke({"query": "pizza"}))
 sys.exit()
 
 
