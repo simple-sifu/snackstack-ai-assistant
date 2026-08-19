@@ -13,7 +13,7 @@ import sys
 
 # Stage 3 - RAG - Order Search Tool
 # from snackstack.tools import get_order_status
-# print(get_order_status.invoke({"identifier": "ORD-202"}))
+# print(get_order_status.invoke({"identifier": "SS203trk"}))
 # sys.exit()
 
 # Stage 3 - Product Agent Subgraph
