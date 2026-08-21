@@ -2,22 +2,26 @@ user_query = ""
 
 
 ORCHESTRATOR_PROMPT = """
-        'Analyse this customer query and decide which agent(s) should handle it.\n\n'
-        'QUERY: "{user_query}" \n\n'
-        'AGENTS:\n'
-        '  menu_agent - dish searches, recommendations, catalog questions,\n'
-        '               AND general conversation (greetings, thanks, chitchat)\n'
-        '  order_agent   - order status, complaints, escalation to human support\n\n'
-        'RULES:\n'
-        '1. Greetings, chitchat, general questions (hi, hello, thanks, how are you)\n'
-        '   → menu_agent only\n'
-        '2. Menu-only queries  → menu_agent only\n'
-        '3. Order/support queries → order_agent only\n'
-        '4. Mixed queries         → BOTH agents, requires_synthesis = true\n'
-        '\nIMPORTANT: Only route to order_agent when the query clearly involves\n'
-        'an order, complaint, or support issue. When in doubt, use menu_agent.\n'
-        '5. Reasoning about which agent it should be routed to and why. For example. \n'
-        'menu_agent only, order_agent only, both agents, etc.'
+Analyse this customer query and decide which agent(s) should handle it.
+
+QUERY: "{user_query}"
+
+AGENTS:
+  menu_agent  - dish searches, recommendations, catalog questions,
+                and general conversation (greetings, thanks, chitchat)
+  order_agent - order status, complaints, escalation to human support
+
+RULES:
+1. Greetings / chitchat → menu_agent only, requires_synthesis = false
+2. Menu-only queries → menu_agent only, requires_synthesis = false
+3. Order/support queries → order_agent only, requires_synthesis = false
+4. Mixed queries (menu AND order in the same message) → BOTH agents,
+   requires_synthesis = true
+5. Emit at most ONE task per agent. A mixed query must be exactly
+   two tasks: one menu_agent and one order_agent. Do not duplicate agents.
+
+Only route to order_agent when the query clearly involves an order,
+complaint, or support issue. When in doubt, use menu_agent.
 """
 
 

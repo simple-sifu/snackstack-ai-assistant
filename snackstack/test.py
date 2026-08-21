@@ -17,10 +17,9 @@ import sys
 # sys.exit()
 
 # Stage 4 - Orchestrator Agent
-from snackstack.graph import snackstack_graph
-print(snackstack_graph.invoke(
-    {"user_query": "Show me the menu"},
-    {"configurable": {"thread_id": "test-004"}},
+from snackstack.agents.orchestrator import orchestrator_node
+print(orchestrator_node(
+    {"user_query": "what kind of pizza do you have and where is my order?"}
 ))
 sys.exit()
 

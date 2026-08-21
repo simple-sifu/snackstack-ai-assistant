@@ -27,19 +27,28 @@ class AgentTask(BaseModel):
     """A single task assigned to a specialist agent."""
 
     agent: Literal["menu_agent", "order_agent"] = Field(
-        description="Which agent handles this task"
+        description="Which specialist should run this task. Use each agent at most once."
     )
     task_description: str = Field(
-        description="What the agent should do"
+        description="What that agent should do for this query"
     )
 
 
 class ClassificationResult(BaseModel):
     """Orchestrator's routing decision."""
 
-    tasks: List[AgentTask] = Field(description="Tasks to dispatch")
+    tasks: List[AgentTask] = Field(
+        description=(
+            "One task per agent that should run. "
+            "Menu-only → [{menu_agent}]. Order-only → [{order_agent}]. "
+            "Mixed pizza+order queries → exactly "
+            "[{menu_agent}, {order_agent}]. Never repeat an agent."
+        ),
+        min_length=1,
+        max_length=2,
+    )
     requires_synthesis: bool = Field(
-        description="True when multiple agents must have their results merged"
+        description="True only when both menu_agent and order_agent have a task"
     )
     reasoning: str = Field(description="Brief explanation of routing decision")
 
