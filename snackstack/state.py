@@ -26,7 +26,7 @@ def agent_results_reducer(current: list[dict], update: list[dict]) -> list[dict]
 class AgentTask(BaseModel):
     """A single task assigned to a specialist agent."""
 
-    agent: Literal["product_agent", "support_agent"] = Field(
+    agent: Literal["menu_agent", "order_agent"] = Field(
         description="Which agent handles this task"
     )
     task_description: str = Field(
@@ -44,15 +44,16 @@ class ClassificationResult(BaseModel):
     reasoning: str = Field(description="Brief explanation of routing decision")
 
 
-class SnackStackState(TypedDict):
+class SnackStackState(TypedDict, total=False):
     """Top-level state that flows through the entire graph."""
 
     # Conversation
     messages: Annotated[list[AnyMessage], operator.add]
     user_query: str
+    task_description: str
 
     # Routing
-    route: Literal["product_agent", "support_agent"]
+    route: Literal["menu_agent", "order_agent"]
     tasks: list[AgentTask]
     requires_synthesis: bool
 
@@ -60,18 +61,4 @@ class SnackStackState(TypedDict):
     agent_results: Annotated[list[dict], agent_results_reducer]
 
     # Final response returned to the user
-    menu_response: str
-    order_response: str
     final_answer: str
-
-
-class WorkerInput(TypedDict):
-    """Payload delivered to an agent worker node via Send().
-
-    NOTE: This is intentionally flat — no nested Pydantic objects —
-    so that Send() serialisation works without surprises.
-    """
-
-    messages: Annotated[list[AnyMessage], operator.add]
-    user_query: str
-    task_description: str

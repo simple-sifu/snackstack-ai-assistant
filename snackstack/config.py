@@ -30,4 +30,4 @@ openai_client = OpenAI(api_key=OPENAI_API_KEY)
 llm = ChatOpenAI(model="gpt-4o", temperature=0.3)
 embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 
-logger.info("OpenAI clients initialised  (model: gpt-4o, embeddings: text-embedding-3-small)")
+logger.info("LLM initialised  (model: gpt-4o, embeddings: text-embedding-3-small)")

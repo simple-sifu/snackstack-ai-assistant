@@ -13,10 +13,18 @@ import sys
 
 # Stage 3 - RAG - Order Search Tool
 # from snackstack.tools import get_order_status
-# print(get_order_status.invoke({"identifier": "SS203trk"}))
+# print(get_order_status.invoke({"identifier": "sneha@example.com"}))
 # sys.exit()
 
-# Stage 3 - Product Agent Subgraph
+# Stage 4 - Orchestrator Agent
+from snackstack.graph import snackstack_graph
+print(snackstack_graph.invoke(
+    {"user_query": "Show me the menu"},
+    {"configurable": {"thread_id": "test-004"}},
+))
+sys.exit()
+
+# Stage 4 - Menu Agent Subgraph
 # from langchain_core.messages import HumanMessage, SystemMessage
 # from src.nodes import product_subgraph, PRODUCT_PROMPT
 # result = product_subgraph.invoke({'messages': [
