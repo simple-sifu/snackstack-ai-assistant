@@ -59,7 +59,6 @@ def get_order_status(identifier: str) -> str:
         or a customer email address
     """
     logger.info("get_order_status  identifier=%r", identifier)
-
     if "@" in identifier:
         match = lookup_order_by_email(identifier)
         if not match:
