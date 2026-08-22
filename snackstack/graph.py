@@ -34,23 +34,19 @@ def build_graph() -> CompiledStateGraph:
     # ── Add nodes ────────────────────────────────────────
     builder.add_node("orchestrator", orchestrator_node)
     builder.add_node("menu_agent", menu_agent)
-    # builder.add_node("order_agent", order_agent)
-    # builder.add_node("synthesizer", synthesizer_node)
+    builder.add_node("order_agent", order_agent)
+    builder.add_node("synthesizer", synthesizer_node)
 
     # ── Add edges ────────────────────────────────────────
     builder.add_edge(START, "orchestrator")
-    builder.add_edge("menu_agent", END)
-    # builder.add_edge("order_agent", "synthesizer")
-    # builder.add_edge("synthesizer", END)
+    builder.add_edge("synthesizer", END)
 
     # ── Compile with checkpointer ────────────────────────
     # MemorySaver persists graph state so that interrupt()-based
     # HITL can pause and resume, and conversation history carries
     # forward between queries.
-    # memory = MemorySaver()
-    # graph = builder.compile(checkpointer=memory)
-    graph = builder.compile()
-
+    memory = MemorySaver()
+    graph = builder.compile(checkpointer=memory)
     logger.info("Graph compiled  (with MemorySaver for conversation persistence)")
     return graph
 

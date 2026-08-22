@@ -9,8 +9,7 @@ from snackstack.agents.prompts import ORCHESTRATOR_PROMPT
 logger = get_logger("orchestrator")
 
 
-def orchestrator_node(state: SnackStackState) -> None: # Command[Literal["menu_agent"]]:
-# Command[Literal["menu_agent", "order_agent", "synthesizer"]]:
+def orchestrator_node(state: SnackStackState) -> Command[Literal["menu_agent", "order_agent", "synthesizer"]]:
     """Classify the user query and dispatch to the right agent(s).
 
     Args:
@@ -43,23 +42,23 @@ def orchestrator_node(state: SnackStackState) -> None: # Command[Literal["menu_a
                 classification.reasoning,
                 classification.requires_synthesis)
 
-    # targets: list[Send] = []
-    # for task in classification.tasks:
-    #     targets.append(Send(task.agent, {
-    #         "messages": state.get("messages", []),
-    #         "user_query": user_query,
-    #         "task_description": task.task_description,
-    #     }))
+    targets: list[Send] = []
+    for task in classification.tasks:
+        targets.append(Send(task.agent, {
+            "messages": state.get("messages", []),
+            "user_query": user_query,
+            "task_description": task.task_description,
+        }))
 
-    # if not targets:
-    #     targets = [Send("synthesizer", {})]
+    if not targets:
+        targets = [Send("synthesizer", {})]
 
-    # return Command(
-    #     update={
-    #         "tasks": classification.tasks,
-    #         "requires_synthesis": classification.requires_synthesis,
-    #         "user_query": user_query,
-    #         "agent_results": [],  # reset stale results from prior turns
-    #     },
-    #     goto=targets,
-    # )
+    return Command(
+        update={
+            "tasks": classification.tasks,
+            "requires_synthesis": classification.requires_synthesis,
+            "user_query": user_query,
+            "agent_results": [],  # reset stale results from prior turns
+        },
+        goto=targets,
+    )

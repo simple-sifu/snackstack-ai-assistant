@@ -34,74 +34,44 @@ import sys
 # sys.exit()
 
 # Stage 7 - Order Agent HITL
-from langchain_core.runnables import RunnableConfig
-from langgraph.checkpoint.memory import MemorySaver
-from langgraph.graph import END, START, StateGraph
-from langgraph.types import Command
+# from langchain_core.runnables import RunnableConfig
+# from langgraph.checkpoint.memory import MemorySaver
+# from langgraph.graph import END, START, StateGraph
+# from langgraph.types import Command
 
-from snackstack.agents.order_agent import order_agent
-from snackstack.agents.synthesizer import synthesizer_node
-from snackstack.state import SnackStackState
+# from snackstack.agents.order_agent import order_agent
+# from snackstack.agents.synthesizer import synthesizer_node
+# from snackstack.state import SnackStackState
 
-builder = StateGraph(SnackStackState)
-builder.add_node("order_agent", order_agent)
-builder.add_node("synthesizer", synthesizer_node)
-builder.add_edge(START, "order_agent")
-builder.add_edge("synthesizer", END)
-hitl_graph = builder.compile(checkpointer=MemorySaver())
+# builder = StateGraph(SnackStackState)
+# builder.add_node("order_agent", order_agent)
+# builder.add_node("synthesizer", synthesizer_node)
+# builder.add_edge(START, "order_agent")
+# builder.add_edge("synthesizer", END)
+# hitl_graph = builder.compile(checkpointer=MemorySaver())
 
-cfg: RunnableConfig = {"configurable": {"thread_id": "test-hitl"}}
-result = hitl_graph.invoke(
-    {"user_query": "What is the status of my order?"},
-    cfg,
-)
-while result.get("__interrupt__"):
-    question = result["__interrupt__"][0].value
-    answer = input(f"Agent asks: {question}\nYou: ").strip()
-    result = hitl_graph.invoke(Command(resume=answer), cfg)
-print(result.get("final_answer", result))
+# cfg: RunnableConfig = {"configurable": {"thread_id": "test-hitl"}}
+# result = hitl_graph.invoke(
+#     {"user_query": "What is the status of my order?"},
+#     cfg,
+# )
+# while result.get("__interrupt__"):
+#     question = result["__interrupt__"][0].value
+#     answer = input(f"Agent asks: {question}\nYou: ").strip()
+#     result = hitl_graph.invoke(Command(resume=answer), cfg)
+# print(result.get("final_answer", result))
+# sys.exit()
+
+
+# Stage 8 - Synthesizer + full Graph
+from langchain_core.messages import HumanMessage
+from snackstack.graph import snackstack_graph
+result = snackstack_graph.invoke(
+    {'messages': [HumanMessage(content='ORD-202 is late, show me status of my order. Also do you have any indian snacks?')],
+    'user_query': 'ORD-202 is late, show me status of my order. Also do you have any indian food?'},
+    {'configurable': {'thread_id': 'test-006'}})
+print(result['final_answer'])
 sys.exit()
-
-
-# Stage 4 - Menu Agent Subgraph
-# from langchain_core.messages import HumanMessage, SystemMessage
-# from src.nodes import product_subgraph, PRODUCT_PROMPT
-# result = product_subgraph.invoke({'messages': [
-#     SystemMessage(content=PRODUCT_PROMPT),
-#     HumanMessage(content='Show me headphones under 15000')]})
-# print(result['messages'][-1].content)
-# sys.exit()
-
-
-# Stage 4 - Support Agent + Tools
-# from langchain_core.messages import HumanMessage, SystemMessage
-# from src.nodes import support_subgraph, SUPPORT_PROMPT
-# result = support_subgraph.invoke({'messages': [
-#     SystemMessage(content=SUPPORT_PROMPT),
-#     HumanMessage(content='Status of order ORD102?')]})
-# print(result['messages'][-1].content)
-# sys.exit()
-
-
-# Stage 5 - Orchestrator + Multi-Agent Routing
-# from src.config import llm
-# from src.state import ClassificationResult
-# c = llm.with_structured_output(ClassificationResult)
-# r = c.invoke('Classify: My order ORD102 is late show me alternatives')
-# print(r)
-# print('Mixed:', [t.agent for t in r.tasks], 'synthesis:', r.requires_synthesis)
-# sys.exit()
-
-
-# Stage 6 - Synthesizer + full Graph
-# from langchain_core.messages import HumanMessage
-# from src.graph import axiomcart_graph
-# result = axiomcart_graph.invoke(
-#     {'messages': [HumanMessage(content='ORD102 is late, show me headphones')],
-#     'user_query': 'ORD102 is late, show me headphones'},
-#     {'configurable': {'thread_id': 'test-006'}})
-# print(result['final_answer'])
-# sys.exit()
 
 # Stage 7 - Human in the Loop (HITL) 
 # from langchain_core.messages import HumanMessage
