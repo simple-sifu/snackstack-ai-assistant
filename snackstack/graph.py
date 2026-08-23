@@ -38,7 +38,12 @@ def build_graph() -> CompiledStateGraph:
     builder.add_node("synthesizer", synthesizer_node)
 
     # ── Add edges ────────────────────────────────────────
+    # Orchestrator uses Command(goto=Send(...)) to fan out to agents.
+    # These static edges are the fan-in: LangGraph waits for every
+    # parallel agent to finish, then runs synthesizer once.
     builder.add_edge(START, "orchestrator")
+    builder.add_edge("menu_agent", "synthesizer")
+    builder.add_edge("order_agent", "synthesizer")
     builder.add_edge("synthesizer", END)
 
     # ── Compile with checkpointer ────────────────────────

@@ -1,7 +1,5 @@
-from typing import Literal
-
 from langchain_core.messages import HumanMessage, SystemMessage, ToolMessage
-from langgraph.types import Command, Send, interrupt
+from langgraph.types import interrupt
 
 from snackstack.agents.prompts import ORDER_AGENT_PROMPT
 from snackstack.config import llm

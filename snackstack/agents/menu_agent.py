@@ -5,8 +5,6 @@ from snackstack.config import llm
 from snackstack.logger import get_logger
 from snackstack.state import SnackStackState
 from snackstack.tools.menu_tools import search_menu_catalog
-from langgraph.types import Command, Send, interrupt
-from typing import Literal
 
 logger = get_logger("menu_agent")
 
@@ -36,7 +34,6 @@ def menu_agent(state: SnackStackState) -> dict:
         response = menu_llm.invoke(messages)
 
     logger.info("[menu:model] tool_calls=%s", bool(response.tool_calls))
-    targets = [Send("synthesizer", {})]
     return {
         "agent_results": [{"source": "menu_agent", "response": response.content}]
     }
