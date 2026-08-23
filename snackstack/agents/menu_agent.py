@@ -15,7 +15,7 @@ menu_tools_by_name = {t.name: t for t in menu_tools}
 menu_llm = llm.bind_tools(menu_tools)
 
 
-def menu_agent(state: SnackStackState) -> Command[Literal["synthesizer"]]:
+def menu_agent(state: SnackStackState) -> dict:
     """Call the menu LLM (with tools bound) and return a synthesizer payload."""
     user_query = state.get("user_query", "")
     task_desc = state.get("task_description", "Help with the menu")
@@ -37,12 +37,7 @@ def menu_agent(state: SnackStackState) -> Command[Literal["synthesizer"]]:
 
     logger.info("[menu:model] tool_calls=%s", bool(response.tool_calls))
     targets = [Send("synthesizer", {})]
-    return Command(
-        update={
-            "tasks": menu_tools,
-            "user_query": user_query,
-            "agent_results": [{"source": "menu_agent", "response": response.content[:-1]}]
-        },
-        goto=targets,
-    )
+    return {
+        "agent_results": [{"source": "menu_agent", "response": response.content}]
+    }
 

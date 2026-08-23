@@ -67,10 +67,10 @@ import sys
 from langchain_core.messages import HumanMessage
 from snackstack.graph import snackstack_graph
 result = snackstack_graph.invoke(
-    {'messages': [HumanMessage(content='ORD-202 is late, show me status of my order. Also do you have any indian snacks?')],
-    'user_query': 'ORD-202 is late, show me status of my order. Also do you have any indian food?'},
+    {'messages': [HumanMessage(content='show me status of my order. Also do you have any indian snacks?')],
+    'user_query': 'show me status of my order. Also do you have any indian food?'},
     {'configurable': {'thread_id': 'test-006'}})
-print(result['final_answer'])
+print(result.get("agent_results", [])[0].get("response"))
 sys.exit()
 
 # Stage 7 - Human in the Loop (HITL) 

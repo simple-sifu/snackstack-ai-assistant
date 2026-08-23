@@ -24,7 +24,7 @@ def _ask_user(prompt: str) -> str:
         return input(f"Agent asks: {prompt}\nYou: ").strip()
 
 
-def order_agent(state: SnackStackState) -> Command[Literal["synthesizer"]]:
+def order_agent(state: SnackStackState) -> dict:
     """Call the order LLM (with tools bound) and return a synthesizer payload."""
     user_query = state.get("user_query", "")
     task_desc = state.get("task_description", "Help with the order")
@@ -54,10 +54,7 @@ def order_agent(state: SnackStackState) -> Command[Literal["synthesizer"]]:
 
     logger.info("[order:model] tool_calls=%s", bool(response.tool_calls))
     logger.info("[order:model] final response=%r", response.content)
-    return Command(
-        update={
-            "user_query": user_query,
-            "agent_results": [{"source": "order_agent", "response": response.content}],
-        },
-        goto=[Send("synthesizer", {})],
-    )
+    return {
+        "agent_results": [{"source": "order_agent", "response": response.content}]
+    }
+
