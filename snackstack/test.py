@@ -64,42 +64,33 @@ import sys
 
 
 # Stage 8 - Synthesizer + full Graph
-from langchain_core.messages import HumanMessage
-from langchain_core.runnables import RunnableConfig
-from langgraph.types import Command
-from snackstack.graph import snackstack_graph
-cfg: RunnableConfig = {"configurable": {"thread_id": "test-006"}}
-result = snackstack_graph.invoke(
-    {
-        "messages": [HumanMessage(content="show me status of my order. Also do you have any indian snacks?")],
-        "user_query": "show me status of my order. Also do you have any indian food?",
-    },
-    cfg,
-)
-while result.get("__interrupt__"):
-    question = result["__interrupt__"][0].value
-    answer = input(f"Agent asks: {question}\nYou: ").strip()
-    result = snackstack_graph.invoke(Command(resume=answer), cfg)
-print(result.get("final_answer") or result.get("agent_results"))
-
-
-# Stage 7 - Human in the Loop (HITL) 
 # from langchain_core.messages import HumanMessage
 # from langchain_core.runnables import RunnableConfig
 # from langgraph.types import Command
-# from src.graph import axiomcart_graph
-# cfg: RunnableConfig = {'configurable': {'thread_id': 'test-hitl'}}
-# r = axiomcart_graph.invoke(
-#     {'messages': [HumanMessage(content='where is my order?')],
-#      'user_query': 'Where is my order'}, cfg)
-# while '__interrupt__' in r and r['__interrupt__']:
-#     answer = input(f"Agent asks: {r['__interrupt__'][0].value}\nYou: ").strip()
-#     r = axiomcart_graph.invoke(Command(resume=answer), cfg)
-# print(r['final_answer'])
+# from snackstack.graph import snackstack_graph
+# cfg: RunnableConfig = {"configurable": {"thread_id": "test-006"}}
+# result = snackstack_graph.invoke(
+#     {
+#         "messages": [HumanMessage(content="show me status of my order. Also do you have any indian snacks?")],
+#         "user_query": "show me status of my order. Also do you have any indian food?",
+#     },
+#     cfg,
+# )
+# while result.get("__interrupt__"):
+#     question = result["__interrupt__"][0].value
+#     answer = input(f"Agent asks: {question}\nYou: ").strip()
+#     result = snackstack_graph.invoke(Command(resume=answer), cfg)
+# print(result.get("final_answer") or result.get("agent_results"))
+
+# Stage 8
+# from snackstack.main import main
+# main()  # text REPL
 # sys.exit()
 
 
+# Stage 9
+from snackstack.main import main
+sys.argv[1:] = ["--voice"]
+main()  # voice mode
+sys.exit()
 
-# Stage 8
-# python -m src.main # text REPL
-# python -m src.main --voice # voice mode
