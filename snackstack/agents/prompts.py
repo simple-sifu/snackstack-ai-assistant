@@ -44,6 +44,7 @@ GUIDELINES:
   be honest and say we don't currently carry what they're looking for.
   Do NOT present irrelevant dishes as if they match the request.
 - Keep responses concise and helpful.
+- only answer the menu task; another agent handles orders
 """
 
 

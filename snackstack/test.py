@@ -65,13 +65,23 @@ import sys
 
 # Stage 8 - Synthesizer + full Graph
 from langchain_core.messages import HumanMessage
+from langchain_core.runnables import RunnableConfig
+from langgraph.types import Command
 from snackstack.graph import snackstack_graph
+cfg: RunnableConfig = {"configurable": {"thread_id": "test-006"}}
 result = snackstack_graph.invoke(
-    {'messages': [HumanMessage(content='show me status of my order. Also do you have any indian snacks?')],
-    'user_query': 'show me status of my order. Also do you have any indian food?'},
-    {'configurable': {'thread_id': 'test-006'}})
-print(result.get("agent_results", [])[0].get("response"))
-sys.exit()
+    {
+        "messages": [HumanMessage(content="show me status of my order. Also do you have any indian snacks?")],
+        "user_query": "show me status of my order. Also do you have any indian food?",
+    },
+    cfg,
+)
+while result.get("__interrupt__"):
+    question = result["__interrupt__"][0].value
+    answer = input(f"Agent asks: {question}\nYou: ").strip()
+    result = snackstack_graph.invoke(Command(resume=answer), cfg)
+print(result.get("final_answer") or result.get("agent_results"))
+
 
 # Stage 7 - Human in the Loop (HITL) 
 # from langchain_core.messages import HumanMessage
