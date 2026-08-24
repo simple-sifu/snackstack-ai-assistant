@@ -86,7 +86,7 @@ class SnackStackAssistant:
     # ── interactive loops ────────────────────────────────
     def text_loop(self) -> None:
         """REPL-style text interaction."""
-        print("\n🛒  AxiomCart Assistant  (type 'quit' to exit)\n")
+        print("\n🛒  SnackStack Assistant  (type 'quit' to exit)\n")
         while True:
             try:
                 user_input = input("You: ").strip()

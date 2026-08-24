@@ -17,7 +17,7 @@ import sys
 # sys.exit()
 
 # Stage 4 - Orchestrator Agent
-from snackstack.agents.orchestrator import orchestrator_node
+from snackstack.agents import orchestrator_node
 print(orchestrator_node(
     {"user_query": "what kind of pizza do you have and where is my order?"}
 ))

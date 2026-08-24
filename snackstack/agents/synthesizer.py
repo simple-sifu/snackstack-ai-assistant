@@ -23,8 +23,9 @@ def synthesizer_node(state: SnackStackState) -> dict:
     parts = "\n\n".join(
         f"[{r['source'].upper()}]:\n{r['response']}" for r in results
     )
-    prompt = SYNTHESIZER_PROMPT.format(user_query=user_query, parts=parts)
+
     logger.info("Invoking llm synthesizer")
-    
-    merged = llm.invoke(prompt)
+    merged = llm.invoke(
+            SYNTHESIZER_PROMPT.format(user_query=user_query, parts=parts)
+        )
     return {"final_answer": merged.content}
